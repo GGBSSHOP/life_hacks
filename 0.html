@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>лайфхаки</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            src: url('font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        body {
+            background: white;
+            min-height: 100vh;
+        }
+
+        .top-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(145deg, #80C400 0%, #7aba4a 30%, #699b7a 70%, #6082B6 100%);
+            box-shadow: 0 6px 20px rgba(96, 130, 182, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 30px;
+            z-index: 3000;
+        }
+
+        .top-line-text {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: white;
+            text-shadow: 4px 4px 0 #3f5f7a, 7px 7px 12px rgba(0,0,0,0.25);
+            text-transform: uppercase;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 0 60px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 0 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 30px 12px 30px 12px;
+            aspect-ratio: 1 / 1;
+            border: 2px solid #e5e9ed;
+            box-shadow: 0 14px 28px -8px rgba(96, 130, 182, 0.16);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 22px 16px;
+            cursor: pointer;
+            transition: 0.08s ease;
+            color: black;
+            text-align: center;
+            user-select: none;
+            width: 100%;
+        }
+
+        .card:hover {
+            border-color: #6082B6;
+            box-shadow: 0 20px 32px -8px #6082B6;
+            transform: scale(1.01);
+        }
+
+        .card:active {
+            transform: scale(0.97);
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: black;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+
+        .double-card {
+            grid-column: span 2;
+            aspect-ratio: 2 / 1;
+            background: white;
+            border-radius: 30px 12px 30px 12px;
+            border: 2px solid #e5e9ed;
+            box-shadow: 0 14px 28px -8px rgba(96, 130, 182, 0.16);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 22px 16px;
+            cursor: pointer;
+            transition: 0.08s ease;
+            color: black;
+            text-align: center;
+            user-select: none;
+            width: 100%;
+        }
+
+        .double-card:hover {
+            border-color: #6082B6;
+            box-shadow: 0 20px 32px -8px #6082B6;
+            transform: scale(1.01);
+        }
+
+        .double-card:active {
+            transform: scale(0.97);
+        }
+
+        .double-card-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: black;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .double-card-sub {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #4a6a7a;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: none;
+            z-index: 2000;
+            padding-top: 80px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            max-width: 700px;
+            width: 90%;
+            margin: 0 auto;
+            background: white;
+            padding: 0 30px 40px 30px;
+            border: none;
+            box-shadow: none;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .back-arrow-modal {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .arrow-symbol-modal {
+            font-size: 3.2rem;
+            color: #6082B6;
+            background: white;
+            width: auto;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 400;
+            line-height: 1;
+            transition: 0.06s linear;
+            border: none;
+            box-shadow: none;
+        }
+
+        .arrow-symbol-modal:hover {
+            color: #80C400;
+            transform: scale(0.96);
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: black;
+            margin-bottom: 25px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .modal-example {
+            background: #f0f7fa;
+            border-left: 8px solid #6082B6;
+            padding: 28px 32px;
+            border-radius: 16px 32px 16px 32px;
+            font-size: 1.5rem;
+            font-family: 'Inter', monospace;
+            margin: 20px 0;
+            color: black;
+            line-height: 1.8;
+            word-break: break-word;
+            white-space: pre-line;
+        }
+
+        .modal-desc {
+            background: white;
+            padding: 24px 0 20px 0;
+            font-size: 1.4rem;
+            color: black;
+            font-weight: 500;
+            border-bottom: 2px solid #e2e9f0;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .modal-extra {
+            font-size: 1.2rem;
+            color: black;
+            padding-top: 8px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        @media (max-width: 600px) {
+            .top-line-text { font-size: 1.6rem; }
+            .grid { 
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 15px;
+                gap: 15px;
+            }
+            .double-card {
+                grid-column: span 2;
+            }
+            .modal-content { 
+                width: 95%;
+                padding: 0 15px 30px 15px;
+            }
+            .modal-example {
+                font-size: 1.2rem;
+                padding: 20px 18px;
+            }
+            .modal-title {
+                font-size: 1.8rem;
+            }
+            .modal-desc {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-line">
+        <span class="top-line-text">ЛАЙФХАКИ</span>
+    </div>
+
+    <div class="main-container" id="mainMenu">
+        <div class="grid" id="hackGrid"></div>
+    </div>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="back-arrow-modal" id="backFromModal">
+                    <span class="arrow-symbol-modal">←</span>
+                </div>
+            </div>
+            <div id="modalTitle" class="modal-title"></div>
+            <div id="modalExample" class="modal-example"></div>
+            <div id="modalDesc" class="modal-desc"></div>
+            <div id="modalExtra" class="modal-extra"></div>
+        </div>
+    </div>
+
+    <script>
+        const hacks = [
+            {
+                title: "×10",
+                modalTitle: "умножение на 10",
+                modalExample: "52 × 10 = 520\n\n52\n52 × 10 = 520\n\n30,7 × 10 = 307\n\n30,7\n30,7 × 10 = 307",
+                modalDesc: "просто допиши ноль справа. если число с запятой — перенеси запятую на один знак вправо.",
+                modalExtra: "работает для всех чисел. всегда. мгновенно."
+            },
+            {
+                title: "×5",
+                modalTitle: "умножение на 5",
+                modalExample: "99 × 5 = 495\n\nспособ 1\n99 × 10 = 990\n990 ÷ 2 = 495\n\nспособ 2\n99 ÷ 2 = 49,5\n49,5 × 10 = 495\n\n284 × 5 = 1420\n284 ÷ 2 = 142\n142 × 10 = 1420",
+                modalDesc: "сначала раздели число на 2, потом умножь на 10. или наоборот — сначала умножь на 10, потом раздели на 2.",
+                modalExtra: "для чётных получается ровно, для нечётных — половинка, но работает всегда."
+            },
+            {
+                title: "×0.5",
+                modalTitle: "умножение на 0,5",
+                modalExample: "86 × 0,5 = 43\n\n86 ÷ 2 = 43\n\n34 × 0,5 = 17\n34 ÷ 2 = 17",
+                modalDesc: "раздели на 2. это просто половина числа.",
+                modalExtra: "×0,5 = ÷2. запомни один раз."
+            },
+            {
+                title: "×25",
+                modalTitle: "умножение на 25",
+                modalExample: "64 × 25 = 1600\n\n64 ÷ 4 = 16\n16 × 100 = 1600\n\n27 × 25 = 675\n27 ÷ 4 = 6,75\n6,75 × 100 = 675",
+                modalDesc: "раздели число на 4, потом умножь на 100. если число не делится на 4 — получится десятичная дробь, но ответ правильный.",
+                modalExtra: "25 = 100 ÷ 4. значит ×25 = ÷4 ×100."
+            },
+            {
+                title: "×11",
+                modalTitle: "умножение на 11 (двузначные)",
+                modalExample: "34 × 11 = 374\n\n3 + 4 = 7\n3_7_4 = 374\n\n72 × 11 = 792\n7 + 2 = 9\n7_9_2 = 792\n\n47 × 11 = 517\n4 + 7 = 11\n4_(11)_7\n4+1=5, остаётся 1\n5_1_7 = 517",
+                modalDesc: "раздвинь цифры, между ними вставь их сумму. если сумма больше 9 — единицу переноси влево.",
+                modalExtra: "3_4, 3+4=7 → 374. 4+7=11 → 4(11)7 → 517."
+            },
+            {
+                title: "×12",
+                modalTitle: "умножение на 12",
+                modalExample: "41 × 12 = 492\n\n41 × 10 = 410\n41 × 2 = 82\n410 + 82 = 492\n\n25 × 12 = 300\n25 × 10 = 250\n25 × 2 = 50\n250 + 50 = 300",
+                modalDesc: "умножь на 10 и прибавь удвоенное число. ×12 = ×10 + ×2.",
+                modalExtra: "41×10=410, 41×2=82, 410+82=492."
+            },
+            {
+                title: "×13",
+                modalTitle: "умножение на 13",
+                modalExample: "27 × 13 = 351\n\n27 × 10 = 270\n27 × 3 = 81\n270 + 81 = 351\n\n43 × 13 = 559\n43 × 10 = 430\n43 × 3 = 129\n430 + 129 = 559",
+                modalDesc: "умножь на 10 и прибавь утроенное число. ×13 = ×10 + ×3.",
+                modalExtra: "27×10=270, 27×3=81, 270+81=351."
+            },
+            {
+                title: "×14",
+                modalTitle: "умножение на 14",
+                modalExample: "32 × 14 = 448\n\n32 × 10 = 320\n32 × 4 = 128\n320 + 128 = 448\n\n21 × 14 = 294\n21 × 10 = 210\n21 × 4 = 84\n210 + 84 = 294",
+                modalDesc: "умножь на 10 и прибавь учетверённое число. ×14 = ×10 + ×4.",
+                modalExtra: "32×10=320, 32×4=128, 320+128=448."
+            },
+            {
+                title: "×15",
+                modalTitle: "умножение на 15",
+                modalExample: "48 × 15 = 720\n\n48 ÷ 2 = 24\n48 + 24 = 72\n72 × 10 = 720\n\n32 × 1,5 = 48\n32 ÷ 2 = 16\n32 + 16 = 48",
+                modalDesc: "прибавь к числу его половину, потом умножь на 10. для ×1,5 просто прибавь половину.",
+                modalExtra: "48+24=72, ×10=720. 32+16=48 — это ×1,5."
+            },
+            {
+                title: "×16",
+                modalTitle: "умножение на 16",
+                modalExample: "25 × 16 = 400\n\n25 × 4 = 100\n100 × 4 = 400\n\n34 × 16 = 544\n34 × 8 = 272\n272 × 2 = 544",
+                modalDesc: "можно дважды умножить на 4, или умножить на 8 и на 2. 16 = 2⁴.",
+                modalExtra: "25×4=100, ×4=400. 34×8=272, ×2=544."
+            },
+            {
+                title: "×17",
+                modalTitle: "умножение на 17",
+                modalExample: "33 × 17 = 561\n\n33 × 10 = 330\n33 × 5 = 165\n33 × 2 = 66\n165 + 66 = 231\n330 + 231 = 561\n\n24 × 17 = 408\n24 × 10 = 240\n24 × 7 = 168\n240 + 168 = 408",
+                modalDesc: "умножь на 10 и прибавь ×7. ×7 можно разложить на ×5 и ×2.",
+                modalExtra: "33×10=330, 33×7=231, 330+231=561."
+            },
+            {
+                title: "×18",
+                modalTitle: "умножение на 18",
+                modalExample: "22 × 18 = 396\n\n22 × 20 = 440\n22 × 2 = 44\n440 − 44 = 396\n\n35 × 18 = 630\n35 × 20 = 700\n35 × 2 = 70\n700 − 70 = 630",
+                modalDesc: "умножь на 20 и отними удвоенное число. ×18 = ×20 − ×2.",
+                modalExtra: "22×20=440, 22×2=44, 440−44=396."
+            },
+            {
+                title: "×19",
+                modalTitle: "умножение на 19",
+                modalExample: "31 × 19 = 589\n\n31 × 20 = 620\n620 − 31 = 589\n\n26 × 19 = 494\n26 × 20 = 520\n520 − 26 = 494",
+                modalDesc: "умножь на 20 и отними само число. ×19 = ×20 − число.",
+                modalExtra: "31×20=620, 620−31=589."
+            },
+            {
+                title: "×21",
+                modalTitle: "умножение на 21",
+                modalExample: "33 × 21 = 693\n\n33 × 20 = 660\n660 + 33 = 693\n\n42 × 21 = 882\n42 × 20 = 840\n840 + 42 = 882",
+                modalDesc: "умножь на 20 и прибавь число. ×21 = ×20 + число.",
+                modalExtra: "33×20=660, 660+33=693."
+            },
+            {
+                title: "×24",
+                modalTitle: "умножение на 24",
+                modalExample: "26 × 24 = 624\n\n26 × 25 = 650\n650 − 26 = 624\n\n35 × 24 = 840\n35 × 25 = 875\n875 − 35 = 840",
+                modalDesc: "умножь на 25 и отними число. ×24 = ×25 − число.",
+                modalExtra: "26×25=650, 650−26=624."
+            },
+            {
+                title: "×9",
+                modalTitle: "умножение на 9",
+                modalExample: "47 × 9 = 423\n\n47 × 10 = 470\n470 − 47 = 423\n\n83 × 9 = 747\n83 × 10 = 830\n830 − 83 = 747",
+                modalDesc: "умножь на 10 и отними само число. ×9 = ×10 − число.",
+                modalExtra: "47×10=470, 470−47=423."
+            },
+            {
+                title: "×99",
+                modalTitle: "умножение на 99",
+                modalExample: "83 × 99 = 8217\n\n83 × 100 = 8300\n8300 − 83 = 8217\n\n7 × 99 = 693\n7 × 100 = 700\n700 − 7 = 693",
+                modalDesc: "умножь на 100 и отними число. ×99 = ×100 − число.",
+                modalExtra: "83×100=8300, 8300−83=8217."
+            },
+            {
+                title: "×101",
+                modalTitle: "умножение на 101",
+                modalExample: "43 × 101 = 4343\n\n43 × 100 = 4300\n4300 + 43 = 4343\n\n72 × 101 = 7272\n72 × 100 = 7200\n7200 + 72 = 7272",
+                modalDesc: "умножь на 100 и прибавь число. ×101 = ×100 + число.",
+                modalExtra: "43×100=4300, 4300+43=4343. цифры повторяются."
+            },
+            {
+                title: "×111",
+                modalTitle: "умножение на 111",
+                modalExample: "32 × 111 = 3552\n\n32 × 100 = 3200\n32 × 10 = 320\n32 × 1 = 32\n3200 + 320 + 32 = 3552\n\n45 × 111 = 4995\n45 × 100 = 4500\n45 × 10 = 450\n45 × 1 = 45\n4500 + 450 + 45 = 4995",
+                modalDesc: "число ×100 + число ×10 + число. или для двузначных — раздвинь цифры, между ними сумма, потом ещё раз сумма.",
+                modalExtra: "32 → 3 (3+2) (3+2) 2 = 3552. но осторожно с переносами."
+            },
+            {
+                title: "×125",
+                modalTitle: "умножение на 125",
+                modalExample: "64 × 125 = 8000\n\n64 × 1000 = 64000\n64000 ÷ 8 = 8000\n\n32 × 125 = 4000\n32 × 1000 = 32000\n32000 ÷ 8 = 4000",
+                modalDesc: "умножь на 1000 и раздели на 8. 125 = 1000 ÷ 8.",
+                modalExtra: "64×1000=64000, ÷8=8000."
+            },
+            {
+                title: "×75",
+                modalTitle: "умножение на 75",
+                modalExample: "48 × 75 = 3600\n\n48 × 100 = 4800\n4800 × 3 = 14400\n14400 ÷ 4 = 3600\n\n32 × 75 = 2400\n32 × 100 = 3200\n3200 × 3 = 9600\n9600 ÷ 4 = 2400",
+                modalDesc: "умножь на 100, умножь на 3, раздели на 4. 75 = 3/4 от 100.",
+                modalExtra: "48×100=4800, ×3=14400, ÷4=3600."
+            },
+            {
+                title: "×1.25",
+                modalTitle: "умножение на 1,25",
+                modalExample: "64 × 1,25 = 80\n\n64 ÷ 4 = 16\n64 + 16 = 80\n\n36 × 1,25 = 45\n36 ÷ 4 = 9\n36 + 9 = 45",
+                modalDesc: "прибавь к числу его четверть. 1,25 = 1 + 0,25.",
+                modalExtra: "64 + 16 = 80. 36 + 9 = 45."
+            },
+            {
+                title: "×2.5",
+                modalTitle: "умножение на 2,5",
+                modalExample: "48 × 2,5 = 120\n\n48 × 10 = 480\n480 ÷ 4 = 120\n\n32 × 2,5 = 80\n32 × 10 = 320\n320 ÷ 4 = 80",
+                modalDesc: "умножь на 10 и раздели на 4. 2,5 = 10 ÷ 4.",
+                modalExtra: "48×10=480, ÷4=120."
+            },
+            {
+                title: "×50",
+                modalTitle: "умножение на 50",
+                modalExample: "86 × 50 = 4300\n\n86 ÷ 2 = 43\n43 × 100 = 4300\n\n35 × 50 = 1750\n35 ÷ 2 = 17,5\n17,5 × 100 = 1750",
+                modalDesc: "раздели на 2 и умножь на 100. 50 = 100 ÷ 2.",
+                modalExtra: "86÷2=43, ×100=4300."
+            },
+            {
+                title: "÷5",
+                modalTitle: "деление на 5",
+                modalExample: "345 ÷ 5 = 69\n\n345 × 2 = 690\n690 ÷ 10 = 69\n\n217 ÷ 5 = 43,4\n217 × 2 = 434\n434 ÷ 10 = 43,4",
+                modalDesc: "умножь на 2 и раздели на 10. делить на 5 — это умножить на 0,2.",
+                modalExtra: "345×2=690, ÷10=69."
+            },
+            {
+                title: "÷0.5",
+                modalTitle: "деление на 0,5",
+                modalExample: "86 ÷ 0,5 = 172\n\n86 × 2 = 172\n\n34 ÷ 0,5 = 68\n34 × 2 = 68",
+                modalDesc: "умножь на 2. разделить на половину — взять два раза.",
+                modalExtra: "86 × 2 = 172."
+            },
+            {
+                title: "÷0.25",
+                modalTitle: "деление на 0,25",
+                modalExample: "64 ÷ 0,25 = 256\n\n64 × 4 = 256\n\n28 ÷ 0,25 = 112\n28 × 4 = 112",
+                modalDesc: "умножь на 4. разделить на четверть — взять четыре раза.",
+                modalExtra: "64 × 4 = 256."
+            },
+            {
+                title: "÷0.125",
+                modalTitle: "деление на 0,125",
+                modalExample: "64 ÷ 0,125 = 512\n\n64 × 8 = 512\n\n32 ÷ 0,125 = 256\n32 × 8 = 256",
+                modalDesc: "умножь на 8. разделить на одну восьмую — взять восемь раз.",
+                modalExtra: "64 × 8 = 512."
+            },
+            {
+                title: "÷15",
+                modalTitle: "деление на 15",
+                modalExample: "90 ÷ 15 = 6\n\n90 ÷ 3 = 30\n30 ÷ 5 = 6\n\n120 ÷ 15 = 8\n120 × 2 = 240\n240 ÷ 30 = 8",
+                modalDesc: "раздели на 3, потом на 5. или умножь на 2 и раздели на 30.",
+                modalExtra: "90÷3=30, ÷5=6. 120×2=240, ÷30=8."
+            },
+            {
+                title: "÷25",
+                modalTitle: "деление на 25",
+                modalExample: "100 ÷ 25 = 4\n\n100 ÷ 100 = 1\n1 × 4 = 4\n\n75 ÷ 25 = 3\n75 ÷ 100 = 0,75\n0,75 × 4 = 3",
+                modalDesc: "раздели на 100 и умножь на 4. 25 = 100 ÷ 4, значит ÷25 = ÷100 ×4.",
+                modalExtra: "75÷100=0,75, ×4=3."
+            },
+            {
+                title: "÷75",
+                modalTitle: "деление на 75",
+                modalExample: "150 ÷ 75 = 2\n\n150 ÷ 3 = 50\n50 ÷ 25 = 2\n\n300 ÷ 75 = 4\n300 × 4 = 1200\n1200 ÷ 300 = 4",
+                modalDesc: "раздели на 3, потом на 25. или умножь на 4 и раздели на 300.",
+                modalExtra: "150÷3=50, ÷25=2. 300×4=1200, ÷300=4."
+            },
+            {
+                title: "…5²",
+                modalTitle: "квадрат чисел, оканчивающихся на 5",
+                modalExample: "65² = 4225\n\n65 → отбросить 5\n6\n6 × 7 = 42\nприписать 25 → 4225\n\n115² = 13225\n115 → отбросить 5\n11\n11 × 12 = 132\nприписать 25 → 13225",
+                modalDesc: "отбрось пятёрку. число без пятёрки умножь на следующее за ним число. к результату припиши 25.",
+                modalExtra: "65 → 6, 6×7=42, 4225. 115 → 11, 11×12=132, 13225."
+            },
+            {
+                title: "11–19²",
+                modalTitle: "квадраты чисел от 11 до 19",
+                modalExample: "13² = 169\n\n13 + 3 = 16\n16 × 10 = 160\n3² = 9\n160 + 9 = 169\n\n17² = 289\n17 + 7 = 24\n24 × 10 = 240\n7² = 49\n240 + 49 = 289",
+                modalDesc: "к числу прибавь его единицы. умножь на 10. прибавь квадрат единиц.",
+                modalExtra: "13+3=16, ×10=160, +3²=169. 17+7=24, ×10=240, +49=289."
+            },
+            {
+                title: "21–29²",
+                modalTitle: "квадраты чисел от 21 до 29",
+                modalExample: "23² = 529\n\n23 − 20 = 3\n23 + 3 = 26\n26 × 20 = 520\n3² = 9\n520 + 9 = 529\n\n27² = 729\n27 − 20 = 7\n27 + 7 = 34\n34 × 20 = 680\n7² = 49\n680 + 49 = 729",
+                modalDesc: "база 20. к числу прибавь разницу до 20. умножь на 20. прибавь квадрат разницы.",
+                modalExtra: "23+3=26, ×20=520, +3²=529. 27+7=34, ×20=680, +49=729."
+            },
+            {
+                title: "31–39²",
+                modalTitle: "квадраты чисел от 31 до 39",
+                modalExample: "33² = 1089\n\n33 − 30 = 3\n33 + 3 = 36\n36 × 30 = 1080\n3² = 9\n1080 + 9 = 1089\n\n37² = 1369\n37 − 30 = 7\n37 + 7 = 44\n44 × 30 = 1320\n7² = 49\n1320 + 49 = 1369",
+                modalDesc: "база 30. к числу прибавь разницу до 30. умножь на 30. прибавь квадрат разницы.",
+                modalExtra: "33+3=36, ×30=1080, +9=1089. 37+7=44, ×30=1320, +49=1369."
+            },
+            {
+                title: "41–49²",
+                modalTitle: "квадраты чисел от 41 до 49",
+                modalExample: "43² = 1849\n\n50 − 43 = 7\n25 − 7 = 18\n7² = 49\n18 и 49 → 1849\n\n46² = 2116\n50 − 46 = 4\n25 − 4 = 21\n4² = 16\n21 и 16 → 2116",
+                modalDesc: "от 50 отними число. посчитай разницу. от 25 отними разницу. припиши квадрат разницы (две цифры).",
+                modalExtra: "50−43=7, 25−7=18, 7²=49 → 1849. 50−46=4, 25−4=21, 4²=16 → 2116."
+            },
+            {
+                title: "50–59²",
+                modalTitle: "квадраты чисел от 50 до 59",
+                modalExample: "53² = 2809\n\n53 − 50 = 3\n25 + 3 = 28\n3² = 09\n28 и 09 → 2809\n\n57² = 3249\n57 − 50 = 7\n25 + 7 = 32\n7² = 49\n32 и 49 → 3249",
+                modalDesc: "к 25 прибавь единицы. припиши квадрат единиц (две цифры).",
+                modalExtra: "53 → 25+3=28, 3²=09 → 2809. 57 → 25+7=32, 7²=49 → 3249."
+            },
+            {
+                title: "91–99²",
+                modalTitle: "квадраты чисел от 91 до 99",
+                modalExample: "93² = 8649\n\n100 − 93 = 7\n93 − 7 = 86\n86 × 100 = 8600\n7² = 49\n8600 + 49 = 8649\n\n97² = 9409\n100 − 97 = 3\n97 − 3 = 94\n94 × 100 = 9400\n3² = 9\n9400 + 9 = 9409",
+                modalDesc: "база 100. от числа отними разницу до 100. умножь на 100. прибавь квадрат разницы.",
+                modalExtra: "93−7=86, ×100=8600, +49=8649. 97−3=94, ×100=9400, +9=9409."
+            },
+            {
+                title: "96×97",
+                modalTitle: "умножение чисел, близких к 100",
+                modalExample: "96 × 97 = 9312\n\n100 − 96 = 4\n100 − 97 = 3\n96 − 3 = 93\n4 × 3 = 12\n93 и 12 → 9312\n\n93 × 95 = 8635\n100 − 93 = 7\n100 − 95 = 5\n93 − 5 = 88\n7 × 5 = 35\n88 и 35 → 8635",
+                modalDesc: "посчитай, сколько каждому числу не хватает до 100. первое число минус недостача второго. припиши произведение недостач.",
+                modalExtra: "100−96=4, 100−97=3. 96−3=93, 4×3=12 → 9312."
+            },
+            {
+                title: "1%",
+                modalTitle: "один процент от числа",
+                modalExample: "1% от 250 = 2,5\n\n250 ÷ 100 = 2,5\n\n1% от 78 = 0,78\n78 ÷ 100 = 0,78",
+                modalDesc: "раздели число на 100. перенеси запятую на два знака влево.",
+                modalExtra: "250 → 2,5. 78 → 0,78."
+            },
+            {
+                title: "10%",
+                modalTitle: "десять процентов от числа",
+                modalExample: "10% от 250 = 25\n\n250 ÷ 10 = 25\n\n10% от 78 = 7,8\n78 ÷ 10 = 7,8",
+                modalDesc: "раздели число на 10. перенеси запятую на один знак влево.",
+                modalExtra: "250 → 25. 78 → 7,8."
+            },
+            {
+                title: "20%",
+                modalTitle: "двадцать процентов от числа",
+                modalExample: "20% от 250 = 50\n\n250 ÷ 5 = 50\n\n20% от 78 = 15,6\n78 ÷ 5 = 15,6",
+                modalDesc: "раздели число на 5. или найди 10% и умножь на 2.",
+                modalExtra: "250÷5=50. 78÷5=15,6."
+            },
+            {
+                title: "25%",
+                modalTitle: "двадцать пять процентов от числа",
+                modalExample: "25% от 250 = 62,5\n\n250 ÷ 4 = 62,5\n\n25% от 78 = 19,5\n78 ÷ 4 = 19,5",
+                modalDesc: "раздели число на 4. четверть.",
+                modalExtra: "250÷4=62,5. 78÷4=19,5."
+            },
+            {
+                title: "33%",
+                modalTitle: "тридцать три процента от числа",
+                modalExample: "33% от 300 = 99\n\n300 ÷ 3 = 100\nэто 33,33%, чуть больше\n300 ÷ 3 = 100, 33% = 99\n\n33% от 60 = 19,8\n60 ÷ 3 = 20\n20 − 0,2 = 19,8",
+                modalDesc: "раздели число на 3. это примерно одна треть.",
+                modalExtra: "300÷3=100, но 33% чуть меньше. 300÷3=100, 33% = 99."
+            },
+            {
+                title: "50%",
+                modalTitle: "пятьдесят процентов от числа",
+                modalExample: "50% от 250 = 125\n\n250 ÷ 2 = 125\n\n50% от 78 = 39\n78 ÷ 2 = 39",
+                modalDesc: "раздели число на 2. половина.",
+                modalExtra: "250÷2=125. 78÷2=39."
+            },
+            {
+                title: "12.5%",
+                modalTitle: "двенадцать с половиной процентов",
+                modalExample: "12,5% от 64 = 8\n\n64 ÷ 8 = 8\n\n12,5% от 80 = 10\n80 ÷ 8 = 10",
+                modalDesc: "раздели число на 8. одна восьмая.",
+                modalExtra: "64÷8=8. 80÷8=10."
+            },
+            {
+                title: "км/ч → м/с",
+                modalTitle: "перевод километров в час в метры в секунду",
+                modalExample: "72 км/ч = 20 м/с\n\n72 ÷ 3,6 = 20\n\n108 км/ч = 30 м/с\n108 ÷ 3,6 = 30",
+                modalDesc: "раздели скорость на 3,6. или умножь на 1000 и раздели на 3600.",
+                modalExtra: "72 ÷ 3,6 = 20. 108 ÷ 3,6 = 30."
+            },
+            {
+                title: "скидка 30%",
+                modalTitle: "скидка 30 процентов",
+                modalExample: "2000 − 30% = 1400\n\n2000 × 0,7 = 1400\nили\n2000 ÷ 10 = 200\n200 × 3 = 600\n2000 − 600 = 1400\n\n850 − 30% = 595\n850 × 0,7 = 595",
+                modalDesc: "умножь цену на 0,7. или сначала найди 10% и умножь на 3, потом отними.",
+                modalExtra: "2000×0,7=1400. 850×0,7=595."
+            },
+            {
+                title: "наценка 20%",
+                modalTitle: "наценка 20 процентов",
+                modalExample: "500 + 20% = 600\n\n500 × 1,2 = 600\nили\n500 ÷ 5 = 100\n500 + 100 = 600\n\n1200 + 20% = 1440\n1200 × 1,2 = 1440",
+                modalDesc: "умножь цену на 1,2. или прибавь пятую часть.",
+                modalExtra: "500×1,2=600. 1200×1,2=1440."
+            },
+            {
+                title: "делимость на 4",
+                modalTitle: "признак делимости на 4",
+                modalExample: "124 → делится\n\nдве последние цифры: 24\n24 ÷ 4 = 6\n124 ÷ 4 = 31\n\n138 → не делится\n38 ÷ 4 = 9,5",
+                modalDesc: "посмотри на две последние цифры. если они делятся на 4 — число делится на 4.",
+                modalExtra: "24÷4=6 → 124 делится. 38÷4=9,5 → 138 не делится."
+            },
+            {
+                title: "делимость на 8",
+                modalTitle: "признак делимости на 8",
+                modalExample: "312 → делится\n\nтри последние цифры: 312\n312 ÷ 8 = 39\n\n214 → не делится\n214 ÷ 8 = 26,75",
+                modalDesc: "посмотри на три последние цифры. если они делятся на 8 — число делится на 8.",
+                modalExtra: "312÷8=39 → делится. 214÷8=26,75 → нет."
+            },
+            {
+                title: "делимость на 11",
+                modalTitle: "признак делимости на 11",
+                modalExample: "1353 → делится\n\nцифры: 1, 3, 5, 3\n(1 + 5) = 6\n(3 + 3) = 6\n6 − 6 = 0\nделится на 11\n\n9185 → делится\n(9 + 8) = 17\n(1 + 5) = 6\n17 − 6 = 11\nделится",
+                modalDesc: "сложи цифры через одну: первую, третью, пятую… сложи вторую, четвёртую, шестую… если разность сумм делится на 11 — число делится.",
+                modalExtra: "1353: (1+5)−(3+3)=6−6=0 → делится. 9185: (9+8)−(1+5)=17−6=11 → делится."
+            },
+            {
+                title: "делимость на 7",
+                modalTitle: "признак делимости на 7",
+                modalExample: "203 → делится\n\n20 − 2×3 = 20 − 6 = 14\n14 ÷ 7 = 2\n\n175 → делится\n17 − 2×5 = 17 − 10 = 7\n7 ÷ 7 = 1",
+                modalDesc: "удвой последнюю цифру, отними от числа без последней. если результат делится на 7 — число делится.",
+                modalExtra: "203: 20−2×3=20−6=14 → делится. 175: 17−2×5=17−10=7 → делится."
+            },
+            {
+                title: "куб 11–19",
+                modalTitle: "кубы чисел от 11 до 19",
+                modalExample: "11³ = 1331\n\n11 × 11 = 121\n121 × 11 = 1331\n\n13³ = 2197\n13 × 13 = 169\n169 × 13 = 1690 + 507 = 2197",
+                modalDesc: "сначала квадрат, потом умножь на само число.",
+                modalExtra: "11×11=121, 121×11=1331. 13×13=169, 169×13=1690+507=2197."
+            },
+            {
+                title: "2¹⁰",
+                modalTitle: "степени двойки",
+                modalExample: "2¹⁰ = 1024\n\n2⁵ = 32\n2⁶ = 64\n2⁷ = 128\n2⁸ = 256\n2⁹ = 512\n2¹⁰ = 1024\n\n2²⁰ = 1048576",
+                modalDesc: "запоминай: 2¹⁰ = 1024 — это килобайт. 2²⁰ = 1048576 — мегабайт. 2³⁰ — гигабайт.",
+                modalExtra: "2⁵=32, 2⁶=64, 2⁷=128, 2⁸=256, 2⁹=512, 2¹⁰=1024."
+            },
+            {
+                title: "сравнение дробей",
+                modalTitle: "сравнение обыкновенных дробей",
+                modalExample: "3/7 и 4/9\n\n3 × 9 = 27\n4 × 7 = 28\n28 > 27\nзначит 4/9 > 3/7",
+                modalDesc: "перемножь крест-накрест. числитель первой на знаменатель второй, числитель второй на знаменатель первой. где произведение больше — та дробь больше.",
+                modalExtra: "не надо приводить к общему знаменателю."
+            }
+        ];
+
+        const gridEl = document.getElementById('hackGrid');
+        
+        function renderGrid() {
+            let html = '';
+            
+            hacks.forEach((h) => {
+                let fontSize = '1.8rem';
+                if (h.title.length > 6) fontSize = '1.5rem';
+                if (h.title.length > 10) fontSize = '1.3rem';
+                
+                html += `<div class="card" onclick="openModal('${encodeURIComponent(JSON.stringify(h))}')">
+                    <div class="card-title" style="font-size: ${fontSize}">${h.title}</div>
+                </div>`;
+            });
+            
+            html += `<div class="double-card" onclick="openModal('${encodeURIComponent(JSON.stringify({
+                title: "МЕТОД СЕМЁНА",
+                modalTitle: "метод Семёна — квадрат числа через базу",
+                modalExample: "89² = 7921\n\n100 − 89 = 11\n89 − 11 = 78\n89 + 11 = 100\n100 × 78 = 7800\n11² = 121\n7800 + 121 = 7921\n\n77² = 5929\n80 − 77 = 3\n77 − 3 = 74\n80 × 74 = 5920\n3² = 9\n5920 + 9 = 5929\n\n99² = 9801\n100 − 99 = 1\n99 − 1 = 98\n100 × 98 = 9800\n1² = 1\n9800 + 1 = 9801",
+                modalDesc: "возьми круглую базу, которая больше числа. посчитай разницу. отними разницу от числа. умножь базу на то, что получилось. прибавь квадрат разницы.",
+                modalExtra: "работает для любого целого числа. проверено до 1 000 000. 0 ошибок."
+            }))}')">
+                <div class="double-card-title">МЕТОД СЕМЁНА</div>
+                <div class="double-card-sub">квадрат через базу</div>
+            </div>`;
+            
+            gridEl.innerHTML = html;
+        }
+
+        window.openModal = function(encoded) {
+            const h = JSON.parse(decodeURIComponent(encoded));
+            document.getElementById('modalTitle').innerText = h.modalTitle;
+            document.getElementById('modalExample').innerText = h.modalExample;
+            document.getElementById('modalDesc').innerText = h.modalDesc;
+            document.getElementById('modalExtra').innerText = h.modalExtra;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('modal').scrollTop = 0;
+        };
+
+        document.getElementById('backFromModal').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'none';
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('modal').style.display = 'none';
+            }
+        });
+
+        renderGrid();
+    </script>
+</body>
+</html>
